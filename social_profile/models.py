@@ -34,19 +34,54 @@ class LanguageLevel(models.Model):
         verbose_name_plural = 'Language levels'
 
 
+class EducationalInstitution(models.Model):
+    institutional_name = models.CharField(max_length=255, verbose_name="Institutional name")
+
+    def __str__(self):
+        return self.institutional_name
+
+    class Meta:
+        ordering = ('institutional_name',)
+        verbose_name = 'Education'
+        verbose_name_plural = 'Educations'
+
+
+class Specialty(models.Model):
+    specialty_name = models.CharField(max_length=255, verbose_name="Specialty name")
+    education = models.ForeignKey(EducationalInstitution, on_delete=models.CASCADE, verbose_name="Education")
+
+    def __str__(self):
+        return self.specialty_name
+
+    class Meta:
+        ordering = ('specialty_name',)
+        verbose_name = 'Specialty'
+        verbose_name_plural = 'Specialties'
+
+
+class WorkExperience(models.Model):
+    company_name = models.CharField(max_length=255, verbose_name="Company name")
+    position = models.CharField(max_length=255, verbose_name="Position")
+    duty = models.TextField(verbose_name="Duty", blank=True, null=True)
+    year_start = models.IntegerField(verbose_name="Start year")
+    year_end = models.IntegerField(verbose_name="End year", blank=True, null=True)
+
+
 class SocialProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     last_name = models.CharField(max_length=100, verbose_name="Last name")
     first_name = models.CharField(max_length=100, verbose_name="First name")
     patronymic = models.CharField(max_length=100, verbose_name="Patronymic", blank=True, null=True)
+    email = models.EmailField(verbose_name="E-mail")
     date_of_birth = models.DateField(verbose_name="Date_of_birth", blank=True, null=True)
     status = models.IntegerField(verbose_name="Status", default=1)
     date_added = models.DateTimeField(verbose_name="Date_added", auto_now_add=True)
     profile_img = models.ImageField(verbose_name="Profile_img", blank=True, null=True, upload_to='profile')
     about_myself = models.TextField(verbose_name="About_myself", blank=True, null=True)
-    # contact_information =
-    # education =
-    # work_experience =
+    contact_information_phone = models.CharField(max_length=255, verbose_name="Phone", blank=True, null=True)
+    contact_information_address = models.CharField(max_length=255, verbose_name="Address", blank=True, null=True)
+    education = models.ManyToManyField(EducationalInstitution, verbose_name="Education", through="EducationWithInfo")
+    work_experience = models.ManyToManyField(WorkExperience, verbose_name="Work experience")
     interests = models.TextField(verbose_name="Interests", blank=True, null=True)
     skills = models.TextField(verbose_name="Skills", blank=True, null=True)
     languages = models.ManyToManyField(Language, verbose_name="Language", through='LanguageWithLevel')
@@ -60,7 +95,17 @@ class SocialProfile(models.Model):
         verbose_name_plural = 'Social profiles'
 
 
+# Many to many through
+
+
 class LanguageWithLevel(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
+
+
+class EducationWithInfo(models.Model):
+    education = models.ForeignKey(EducationalInstitution, on_delete=models.CASCADE)
+    profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
+    year_of_entrance = models.IntegerField(verbose_name="Year of entrance")
+    year_of_graduating = models.IntegerField(verbose_name="Year of graduating", blank=True, null=True)
