@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'social_profile.apps.SocialProfileConfig',
     'institution.apps.InstitutionConfig',
     'index.apps.IndexConfig',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
