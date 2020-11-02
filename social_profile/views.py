@@ -16,7 +16,7 @@ class ProfileView(View):
             'profile': profile_data
         })
 
-    def post(self, request):
+    def post(self, request, profile_id):
         pass
 
 

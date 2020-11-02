@@ -103,7 +103,7 @@ class LanguageWithLevel(models.Model):
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
 
-
+# Может лучше специальность? Вместо учебного заведения?
 class EducationWithInfo(models.Model):
     education = models.ForeignKey(EducationalInstitution, on_delete=models.CASCADE)
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)

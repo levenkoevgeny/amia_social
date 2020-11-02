@@ -22,7 +22,7 @@ class ProfileForm(ModelForm):
     class Meta:
 
         model = SocialProfile
-        exclude = ['user', 'status', 'date_added']
+        exclude = ['user', 'status', 'date_added', 'education', 'work_experience', 'languages']
         widgets = {
             'date_of_birth': myDateInput
         }
