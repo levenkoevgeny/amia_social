@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="login-form">
+            {% if form.errors %}
+                <p>Логин либо пароль введены неверно! Попробуйте еще раз!</p>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <p>У Вас нет прав на просмотр данной страницы! Чтобы продолжить войдите под учетной записью пользователя с соответствующими правами!</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Введите логин">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Введите пароль">
+                </div>
+                <button type="submit" class="btn btn-secondary">Войти!</button>
+            </form>
+            <a href="{% url 'profile:profile_registration' %}" class="card-link">Регистрация</a>
+        </div>
+    </div>
+{% endblock %}

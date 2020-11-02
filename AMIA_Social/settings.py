@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'institution.apps.InstitutionConfig',
     'index.apps.IndexConfig',
     'django_celery_results',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

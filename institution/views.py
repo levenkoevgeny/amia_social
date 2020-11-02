@@ -3,9 +3,10 @@ from django.views import View
 from django.shortcuts import get_object_or_404
 
 from .models import Institution, Vacancy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class SearchView(View):
+class SearchView(LoginRequiredMixin, View):
     def get(self, request):
         institutions = Institution.objects.all()
         vacancies = Vacancy.objects.all().order_by('-date_added')[:5]
