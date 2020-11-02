@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_profile.apps.SocialProfileConfig',
     'institution.apps.InstitutionConfig',
+    'index.apps.IndexConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = 'levenko.evgeny@yandex.by'
+EMAIL_HOST_PASSWORD = 'Minsk1986Minsk'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

@@ -1,10 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from social_profile.models import SocialProfile
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class Institution(models.Model):
     institution_name = models.CharField(max_length=255, verbose_name="Institution name")
+    info_about = models.TextField(verbose_name="About", blank=True, null=True)
+    img = models.ImageField(verbose_name="Image", blank=True, null=True, upload_to='institutions')
+    subscribers = models.ManyToManyField(SocialProfile, verbose_name="Subscribers")
 
     def __str__(self):
         return self.institution_name
@@ -31,7 +36,7 @@ class Vacancy(models.Model):
     description = models.TextField(verbose_name="Description", blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name="Institution")
     responded = models.ManyToManyField(SocialProfile, verbose_name="Responded", through='RespondedVacancy')
-    status = models.IntegerField(verbose_name="Responded", choices=STATUSES, default=OPENED)
+    status = models.IntegerField(verbose_name="Status", choices=STATUSES, default=OPENED)
 
     def __str__(self):
         return self.vacancy
@@ -40,6 +45,19 @@ class Vacancy(models.Model):
         ordering = ('vacancy',)
         verbose_name = 'Vacancy'
         verbose_name_plural = 'Vacancies'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        institution = self.institution
+        if institution.subscribers:
+            for subscriber in institution.subscribers.all():
+                send_mail(
+                    'New positions!!!',
+                    self.vacancy,
+                    settings.EMAIL_HOST_USER,
+                    ['leva24031986@gmail.com'],
+                    fail_silently=False,
+                )
 
 
 class RespondedVacancy(models.Model):

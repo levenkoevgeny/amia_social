@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% include 'social_profile/navbar.html' %}
+    <br>
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            {% for inst in institutions %}
+                                <li class="media">
+                                    <img src="" class="mr-3" alt="institution_image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 mb-1">{{ inst.institution_name }}
+                                            <a href="{% url 'institution:institution_vacancy' inst.id %}" class="badge badge-dark">{{ inst.vacancy_set.all.count }}</a>
+                                        </h5>
+                                        {{ inst.info_about }}
+                                    </div>
+                                </li><br>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Название отдела</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Ключевое слово в названии вакансии</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                    <button type="submit" class="btn btn-primary">Поиск</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="card">
+                    <div class="card-body">
+                        <b>Последние добавленные вакансии:</b><br>
+                        {% for vacancy in vacancies %}
+                            Подразделение - {{ vacancy.institution }}<br>
+                            Вакансия - {{ vacancy }} Добавлена - {{ vacancy.date_added }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
