@@ -13,6 +13,18 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 import os
+
+# Celery settings
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_SERIALIZER = 'json'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_profile.apps.SocialProfileConfig',
     'institution.apps.InstitutionConfig',
+    'hr.apps.HrConfig',
     'index.apps.IndexConfig',
     'django_celery_results',
     'widget_tweaks',

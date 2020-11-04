@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from social_profile.models import SocialProfile
-from django.core.mail import send_mail
-from django.conf import settings
+
+from .tasks import send_email
+from django.db.models.signals import post_save, pre_save
 
 
 class Institution(models.Model):
@@ -47,20 +48,36 @@ class Vacancy(models.Model):
         verbose_name_plural = 'Vacancies'
 
     def save(self, *args, **kwargs):
+        if self.pk:
+            created = False
+        else:
+            created = True
         super().save(*args, **kwargs)
-        institution = self.institution
-        if institution.subscribers:
-            for subscriber in institution.subscribers.all():
-                send_mail(
-                    'New positions!!!',
-                    self.vacancy,
-                    settings.EMAIL_HOST_USER,
-                    ['leva24031986@gmail.com'],
-                    fail_silently=False,
-                )
+        send_email.delay(self.institution.pk, self.pk, created)
+
+
+
+
+        # institution = self.institution
+        # if institution.subscribers:
+        #     for subscriber in institution.subscribers.all():
+        #         send_mail(
+        #             'New positions!!!',
+        #             self.vacancy,
+        #             settings.EMAIL_HOST_USER,
+        #             ['leva24031986@gmail.com'],
+        #             fail_silently=False,
+        #         )
 
 
 class RespondedVacancy(models.Model):
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     vacansy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     date_of_response = models.DateTimeField(verbose_name="Date of response", auto_now_add=True)
+
+
+# def save_profile(sender, instance, **kwargs):
+#     print('signal', instance.pk)
+#
+#
+# pre_save.connect(save_profile, sender=Vacancy)

@@ -11,7 +11,7 @@ class SearchView(LoginRequiredMixin, View):
         institutions = Institution.objects.all()
         vacancies = Vacancy.objects.all().order_by('-date_added')[:5]
 
-        return render(request, 'institution/vacancy_search.html', {
+        return render(request, 'institution/vacancies/vacancy_search.html', {
             'institutions': institutions,
             'vacancies': vacancies,
         })
@@ -23,7 +23,7 @@ class SearchView(LoginRequiredMixin, View):
 class InstitutionVacancyView(View):
     def get(self, request, institution_id):
         institution = get_object_or_404(Institution, pk=institution_id)
-        return render(request, 'institution/vacancy_institution.html', {
+        return render(request, 'institution/vacancies/vacancy_institution.html', {
             'institution': institution,
         })
 
@@ -33,15 +33,15 @@ class InstitutionVacancyView(View):
 
 class VacancyAddView(View):
     def get(self, request):
-        return render(request, 'institution/vacancy_input_form.html')
+        return render(request, 'institution/vacancies/vacancy_input_form.html')
 
     def post(self, request):
         pass
 
 
 class VacancyUpdateView(View):
-    def get(self, request, institution_id):
-        return render(request, 'institution/vacancy_update_form.html')
+    def get(self, request, vacancy_id):
+        return render(request, 'institution/vacancies/vacancy_update_form.html')
 
     def post(self, request, institution_id):
         pass
