@@ -2,6 +2,30 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Skill(models.Model):
+    skill_name = models.CharField(max_length=255, verbose_name="Skill")
+
+    def __str__(self):
+        return self.skill_name
+
+    class Meta:
+        ordering = ('skill_name',)
+        verbose_name = 'Skill'
+        verbose_name_plural = 'Skills'
+
+
+class Interest(models.Model):
+    interest_name = models.CharField(max_length=255, verbose_name="Interest")
+
+    def __str__(self):
+        return self.interest_name
+
+    class Meta:
+        ordering = ('interest_name',)
+        verbose_name = 'Interest'
+        verbose_name_plural = 'Interests'
+
+
 class Language(models.Model):
     language_name = models.CharField(max_length=100, verbose_name="Language_name")
 
@@ -66,6 +90,14 @@ class WorkExperience(models.Model):
     year_start = models.IntegerField(verbose_name="Start year")
     year_end = models.IntegerField(verbose_name="End year", blank=True, null=True)
 
+    def __str__(self):
+        return self.position + ' ' + self.company_name
+
+    class Meta:
+        ordering = ('position',)
+        verbose_name = 'Work experience'
+        verbose_name_plural = 'Work experience'
+
 
 class SocialProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -82,8 +114,8 @@ class SocialProfile(models.Model):
     contact_information_address = models.CharField(max_length=255, verbose_name="Address", blank=True, null=True)
     education = models.ManyToManyField(EducationalInstitution, verbose_name="Education", through="EducationWithInfo")
     work_experience = models.ManyToManyField(WorkExperience, verbose_name="Work experience")
-    interests = models.TextField(verbose_name="Interests", blank=True, null=True)
-    skills = models.TextField(verbose_name="Skills", blank=True, null=True)
+    interests = models.ManyToManyField(Interest, verbose_name="Interests", blank=True)
+    skills = models.ManyToManyField(Skill, verbose_name="Skills", blank=True)
     languages = models.ManyToManyField(Language, verbose_name="Language", through='LanguageWithLevel')
 
     def __str__(self):
@@ -102,6 +134,7 @@ class LanguageWithLevel(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
+
 
 # Может лучше специальность? Вместо учебного заведения?
 class EducationWithInfo(models.Model):

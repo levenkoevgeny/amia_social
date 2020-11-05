@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'index.apps.IndexConfig',
     'django_celery_results',
     'widget_tweaks',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

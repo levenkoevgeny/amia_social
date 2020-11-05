@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load widget_tweaks %}
 {% block content %}
 
     {% include 'social_profile/navbar.html' %}
@@ -27,34 +27,51 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
-
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form action="{% url 'institution:search' %}" method="get">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Название отдела</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        {% render_field filter.form.institution class+="form-control" style="width: 100%" %}
                                     </div>
                                 </div>
-                                <div class="col-lg-5">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Ключевое слово в названии вакансии</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1">
+                                        {% render_field filter.form.vacancy class+="form-control" style="width: 100%" %}
                                     </div>
                                 </div>
-                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
-                                    <button type="submit" class="btn btn-primary">Поиск</button>
-                                </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Поиск</button>&nbsp;&nbsp;<a href="{% url 'institution:search' %}" class="btn btn-primary">Сбросить фильтр</a>
                         </form>
+                    </div>
+                </div><br>
+                <div class="card">
+                    <div class="card-body">
+                        {% if vacancies_search %}
+                            {% for vac in vacancies_search %}
+                                <p>
+                                    <a class="" data-toggle="collapse" href="#collapseExample{{ vac.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <b>{{ vac.vacancy }}</b>
+                                    </a> {{ vac.institution }}&nbsp;&nbsp;<button type="button" class="btn btn-secondary"><i class="fas fa-bell"></i> Откликнуться</button><br>
+                                </p>
+                                <div class="collapse" id="collapseExample{{ vac.id }}">
+                                    <div class="card card-body">
+                                        {{ vac.description }}
+                                    </div>
+                                </div>
+                             {% endfor %}
+                        {% else %}
+                            По вашему запросу ничего не найдено
+                        {% endif %}
                     </div>
                 </div>
 
-                <br>
-
+            </div>
+            <div class="col-lg-2">
                 <div class="card">
                     <div class="card-body">
                         <b>Последние добавленные вакансии:</b><br>
@@ -64,9 +81,16 @@
                         {% endfor %}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function() {
+            $('#id_institution').select2();
+        });
+    </script>
 {% endblock %}

@@ -15,7 +15,7 @@ class ProfileView(View):
         return render(request, 'social_profile/profile.html', {
             'profile': profile_data
         })
-
+# p = SocialProfile.objects.filter(education__educationwithinfo=)
     def post(self, request, profile_id):
         pass
 

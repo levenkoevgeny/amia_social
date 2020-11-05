@@ -12,26 +12,54 @@
             <div class="col-sm-8">
                 <div class="card">
                     <div class="card-body">
-                        <img src="{% static 'social_profile/img/IMG_20201007_153921_071-min (1).jpg' %}" alt="profile_image" class="img-thumbnail" width="200">
-                        <button type="button" class="btn btn-info"><i class="far fa-comments"></i> Написать сообщение</button>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="{% static 'social_profile/img/IMG_20201007_153921_071-min (1).jpg' %}" alt="profile_image" class="img-thumbnail" width="200">
+                            </div>
+                            <div class="col-sm-8">
+                                <button type="button" class="btn btn-info"><i class="far fa-comments"></i> Написать сообщение</button><br><br>
+                                <div>
+                                    <i class="fas fa-mobile"></i> {{ profile.contact_information_phone }}<br>
+                                    <i class="fas fa-map-marker-alt"></i> {{ profile.contact_information_address }}<br><br>
+                                    <b>{{ profile.about_myself }}</b>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="card">
                     <div class="card-body">
-                        Образование
+                        <h5 class="card-title"><i class="fas fa-university"></i> Образование</h5>
+                        {% for education in profile.educationwithinfo_set.all %}
+                            {{ education.education }} {{ education.year_of_entrance }} - {{ education.year_of_graduating }}<br>
+                        {% endfor %}
                     </div>
                 </div>
                 <br>
                 <div class="card">
                     <div class="card-body">
-                        Опыт работы
+                        <h5 class="card-title"><i class="fas fa-briefcase"></i> Опыт работы</h5>
+                        {% for w_e in profile.work_experience.all %}
+                            {{ w_e.company_name }} {{ w_e.year_start }} - {{ w_e.year_end }}<br>
+                        {% endfor %}
                     </div>
                 </div>
                 <br>
                 <div class="card">
                     <div class="card-body">
-                        Навыки
+                        <h5 class="card-title"><i class="fas fa-thumbs-up"></i> Навыки</h5>
+                        {% for skill in profile.skills.all %}
+                            {{ skill }},
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-thumbs-up"></i> Знание иностранных языков</h5>
+                        {% for lang in profile.languagewithlevel_set.all %}
+                            {{ lang.language }}: Level - {{ lang.level }}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

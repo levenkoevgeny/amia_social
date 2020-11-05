@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
+    {% include 'social_profile/navbar.html' %}
     <div class="container">
         <br>
         <form action="{% url 'profile:profile_update' obj.id %}" method="post">{% csrf_token %}

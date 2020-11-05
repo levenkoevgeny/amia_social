@@ -1,15 +1,17 @@
-<form>
+{% load widget_tweaks %}
+
+<form action="{% url 'hr:main' %}" method="get">
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="exampleInputEmail1">Отдел</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                {% render_field filter.form.institution class+="form-control" style="width: 100%" %}
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="exampleInputEmail1">Навыки навыки для вакансии</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                {% render_field filter.form.skills class+="form-control" style="width: 100%" %}
             </div>
         </div>
     </div>
@@ -17,15 +19,15 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="exampleInputEmail1">Иностранный язык для вакансии</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                {% render_field filter.form.language class+="form-control" style="width: 100%" %}
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="exampleInputEmail1">Необходимый уровень владения</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                {% render_field filter.form.language_level class+="form-control" style="width: 100%" %}
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Поиск</button>
+    <button type="submit" class="btn btn-primary">Поиск</button>&nbsp;&nbsp;<a href="{% url 'hr:main' %}" class="btn btn-primary">Сбросить фильтр</a>
 </form>
