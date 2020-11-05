@@ -1,1 +1,10 @@
 {% extends 'institution/vacancies/vacancy_input_form.html' %}
+
+
+{% block form_title %}
+    <form action="{% url 'institution:vacancy_update' vacancy_id=obj.id %}" method="post">{% csrf_token %}
+{% endblock %}
+
+{% block button %}
+    <button type="submit" class="btn btn-primary">Сохранить!</button>
+{% endblock %}

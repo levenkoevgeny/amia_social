@@ -15,7 +15,7 @@ class ProfileView(View):
         return render(request, 'social_profile/profile.html', {
             'profile': profile_data
         })
-# p = SocialProfile.objects.filter(education__educationwithinfo=)
+
     def post(self, request, profile_id):
         pass
 
@@ -28,6 +28,7 @@ class ProfileUpdateView(View):
                                                                            'obj': obj,
                                                                            })
 
+    @transaction.atomic
     def post(self, request):
         pass
 
@@ -57,8 +58,6 @@ class RegistrationView(View):
             )
 
             profile.save()
-            profile.user = profile_user
-
             return HttpResponseRedirect(reverse('profile:profile_registration'))
         else:
             return render(request, 'registration/registration.html', {'form': form})

@@ -4,7 +4,13 @@
 {% block title %}Ваш профиль{% endblock %}
 
 {% block content %}
-    {% include "social_profile/navbar.html" %}
+
+    {% if request.user.is_staff %}
+        {% include 'hr/navbar_hr.html' %}
+    {% else %}
+        {% include "social_profile/navbar.html" %}
+    {% endif %}
+
     <br>
     <div class="container">
         <div class="row">
