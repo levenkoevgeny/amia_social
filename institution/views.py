@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.shortcuts import get_object_or_404
 
-from .models import Institution, Vacancy, LanguageWithLevelVacancy
+from .models import Institution, Vacancy, LanguageWithLevelVacancy, RespondedVacancy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filters import VacancyFilterForProfile
 from django.core.paginator import Paginator
@@ -10,6 +10,18 @@ from .forms import VacancyForm, LanguageWithLevelVacancyForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db import transaction
+from django.http import JsonResponse
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import json
+
+
+class SubscriptionAnswer:
+    def __init__(self, last_name, vacancy_name, vacancy_id, count):
+        self.last_name = last_name
+        self.vacancy_name = vacancy_name
+        self.vacancy_id = vacancy_id
+        self.count = count
 
 
 class SearchView(LoginRequiredMixin, View):
@@ -95,4 +107,65 @@ class VacancyUpdateView(View):
             return render(request, 'institution/vacancies/vacancy_input_form.html', {
                 'form': form, 'form_language': form_language
             })
+
+
+def subscription(request):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        sign = int(request.POST['subscribe_sign'])
+        institution = get_object_or_404(Institution, pk=request.POST['institution_id'])
+        if sign == -1:
+            institution.subscribers.add(request.user.socialprofile)
+            last_name = str(request.user.socialprofile.last_name)
+
+            return JsonResponse({'last_name': last_name, 'sign': '1'})
+        if sign == 1:
+            institution.subscribers.remove(request.user.socialprofile)
+            last_name = str(request.user.socialprofile.last_name)
+            return JsonResponse({'last_name': last_name, 'sign': '-1'})
+
+
+def vacancy_response(request):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        sign = int(request.POST['response_sign'])
+        vacancy = get_object_or_404(Vacancy, pk=request.POST['vacancy_id'])
+        if sign == -1:
+            vacancy.responded.add(request.user.socialprofile)
+            last_name = str(request.user.socialprofile.last_name)
+
+            sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
+            sub_answer_json = json.dumps(sub_answer .__dict__)
+            channel_layer = get_channel_layer()
+
+            async_to_sync(channel_layer.group_send)(
+                'hr',
+                {
+                    "type": "hr.message",
+                    "message": sub_answer_json,
+                }
+            )
+
+            return JsonResponse({'last_name': last_name, 'sign': '1', 'vacancy_id': vacancy.id})
+        if sign == 1:
+            vacancy.responded.remove(request.user.socialprofile)
+            last_name = str(request.user.socialprofile.last_name)
+
+            sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
+            sub_answer_json = json.dumps(sub_answer.__dict__)
+            channel_layer = get_channel_layer()
+
+            async_to_sync(channel_layer.group_send)(
+                'hr',
+                {
+                    "type": "hr.message",
+                    "message": sub_answer_json,
+                }
+            )
+            return JsonResponse({'last_name': last_name, 'sign': '-1', 'vacancy_id': vacancy.id})
+
+
+
 

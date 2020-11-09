@@ -26,8 +26,6 @@ class VacancyFilter(django_filters.FilterSet):
         model = Vacancy
         fields = [
             'skills',
-            'languages',
-            'institution',
         ]
 
 
