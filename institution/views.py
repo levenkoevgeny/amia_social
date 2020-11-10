@@ -17,11 +17,12 @@ import json
 
 
 class SubscriptionAnswer:
-    def __init__(self, last_name, vacancy_name, vacancy_id, count):
+    def __init__(self, last_name, vacancy_name, vacancy_id, count, img_url=None):
         self.last_name = last_name
         self.vacancy_name = vacancy_name
         self.vacancy_id = vacancy_id
         self.count = count
+        self.img_url = img_url
 
 
 class SearchView(LoginRequiredMixin, View):
@@ -135,8 +136,11 @@ def vacancy_response(request):
         if sign == -1:
             vacancy.responded.add(request.user.socialprofile)
             last_name = str(request.user.socialprofile.last_name)
-
-            sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
+            if request.user.socialprofile.profile_img:
+                img_url = request.user.socialprofile.profile_img.url
+                sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count(), img_url)
+            else:
+                sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
             sub_answer_json = json.dumps(sub_answer .__dict__)
             channel_layer = get_channel_layer()
 
@@ -153,7 +157,12 @@ def vacancy_response(request):
             vacancy.responded.remove(request.user.socialprofile)
             last_name = str(request.user.socialprofile.last_name)
 
-            sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
+            if request.user.socialprofile.profile_img:
+                img_url = request.user.socialprofile.profile_img.url
+                sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count(),
+                                                img_url)
+            else:
+                sub_answer = SubscriptionAnswer(last_name, vacancy.vacancy, vacancy.id, vacancy.responded.count())
             sub_answer_json = json.dumps(sub_answer.__dict__)
             channel_layer = get_channel_layer()
 

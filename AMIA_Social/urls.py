@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView
 from django.urls import reverse
 from index.views import sign_in
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', sign_in),
@@ -26,4 +28,4 @@ urlpatterns = [
     path('institution/', include('institution.urls')),
     path('hr/', include('hr.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
