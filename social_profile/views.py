@@ -7,9 +7,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     def get(self, request, profile_id):
         profile_data = get_object_or_404(SocialProfile, pk=profile_id)
         return render(request, 'social_profile/profile.html', {
@@ -20,7 +21,7 @@ class ProfileView(View):
         pass
 
 
-class ProfileUpdateView(View):
+class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request, profile_id):
         obj = get_object_or_404(SocialProfile, pk=profile_id)
         form = ProfileForm(instance=obj)

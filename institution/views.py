@@ -43,7 +43,7 @@ class SearchView(LoginRequiredMixin, View):
         })
 
 
-class InstitutionVacancyView(View):
+class InstitutionVacancyView(LoginRequiredMixin, View):
     def get(self, request, institution_id):
         institution = get_object_or_404(Institution, pk=institution_id)
         return render(request, 'institution/vacancies/vacancy_institution.html', {
@@ -54,7 +54,7 @@ class InstitutionVacancyView(View):
         pass
 
 
-class VacancyAddView(View):
+class VacancyAddView(LoginRequiredMixin, View):
 
     def get(self, request):
         form_main = VacancyForm
@@ -80,7 +80,7 @@ class VacancyAddView(View):
             })
 
 
-class VacancyUpdateView(View):
+class VacancyUpdateView(LoginRequiredMixin, View):
     def get(self, request, vacancy_id):
         obj = get_object_or_404(Vacancy, pk=vacancy_id)
         lang_obj = LanguageWithLevelVacancy.objects.filter(vacancy_id=obj.id).first()

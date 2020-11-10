@@ -16,5 +16,5 @@ chatSocket.onmessage = function(e) {
 };
 
 chatSocket.onclose = function(e) {
-     console.error('Chat socket closed unexpectedly');
+     console.error('Chat socket closed unexpectedly', e);
 };
