@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+
         <div class="login-form">
             {% if form.errors %}
-                <p>Логин либо пароль введены неверно! Попробуйте еще раз!</p>
+                <div class="alert alert-danger">
+                    <strong>Логин либо пароль введены неверно! Попробуйте еще раз!</strong>
+                </div>
             {% endif %}
             {% if user.is_authenticated %}
-                <p>У Вас нет прав на просмотр данной страницы! Чтобы продолжить войдите под учетной записью пользователя с соответствующими правами!</p>
+                <div class="alert alert-danger">
+                    <strong>У Вас нет прав на просмотр данной страницы! Чтобы продолжить войдите под учетной записью пользователя с соответствующими правами!</strong>
+                </div>
             {% endif %}
             <form method="post">
                 {% csrf_token %}
@@ -21,7 +26,9 @@
                 </div>
                 <button type="submit" class="btn btn-secondary">Войти!</button>
             </form>
-            <a href="{% url 'profile:profile_registration' %}" class="card-link">Регистрация</a>
+            <br>
+            <a href="{% url 'profile:profile_registration' %}" class="card-link"><i class="fas fa-user-plus"></i> Еще нет аккаунта? Регистрируйся сейчас!</a>
         </div>
+
     </div>
 {% endblock %}

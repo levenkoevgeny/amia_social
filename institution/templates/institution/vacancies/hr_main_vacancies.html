@@ -24,7 +24,7 @@
                     <tbody>
                     {% for vacancy in vacancies %}
                         <tr>
-                            <td><a href="">{{ vacancy.vacancy }}</a></td>
+                            <td>{{ vacancy.vacancy }}</td>
                             <td>{{ vacancy.institution.institution_name }}</td>
                             <td data-VacancyId="{{ vacancy.id }}">{{ vacancy.responded.count }}</td>
                             <td><a href="{% url 'institution:vacancy_update' vacancy.id %}" class="btn btn-light"><i class="fas fa-cog"></i></a></td>

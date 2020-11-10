@@ -14,7 +14,7 @@
                         <ul class="list-unstyled">
                             {% for inst in institutions %}
                                 <li class="media">
-                                    <img src="" class="mr-3" alt="institution_image">
+                                    <img src="{{ inst.img.url }}" class="mr-3" alt="institution_image" style="width: 100px;">
                                     <div class="media-body">
                                         <h5 class="mt-0 mb-1">{{ inst.institution_name }}
                                             <a href="{% url 'institution:institution_vacancy' inst.id %}" class="badge badge-dark">{{ inst.vacancy_set.all.count }}</a>
@@ -56,7 +56,7 @@
                                 <p>
                                     <a class="" data-toggle="collapse" href="#collapseExample{{ vac.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         <b>{{ vac.vacancy }}</b>
-                                    </a> {{ vac.institution }}&nbsp;&nbsp;<button type="button" class="btn btn-secondary"><i class="fas fa-bell"></i> Откликнуться</button><br>
+                                    </a> {{ vac.institution }}&nbsp;&nbsp;<button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-bell"></i> Откликнуться</button><br>
                                 </p>
                                 <div class="collapse" id="collapseExample{{ vac.id }}">
                                     <div class="card card-body">

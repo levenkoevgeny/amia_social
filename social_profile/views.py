@@ -58,6 +58,6 @@ class RegistrationView(View):
             )
 
             profile.save()
-            return HttpResponseRedirect(reverse('profile:profile_registration'))
+            return HttpResponseRedirect(reverse('institution:search'))
         else:
             return render(request, 'registration/registration.html', {'form': form})
