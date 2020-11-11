@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+
+{% block title %}Поиск вакансии{% endblock %}
+
 {% block content %}
 
-    {% include 'social_profile/navbar.html' %}
+        {% include 'social_profile/navbar.html' %}
     <br>
     <div class="container-fluid">
 
@@ -63,7 +66,7 @@
                                         {{ vac.description }}
                                     </div>
                                 </div>
-                             {% endfor %}
+                            {% endfor %}
                         {% else %}
                             По вашему запросу ничего не найдено
                         {% endif %}

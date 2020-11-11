@@ -37,7 +37,6 @@ function get_response(vacancy_id, response_sign){
         data: response_data,
         timeout : 100000,
         success: function (data) {
-            console.log(data);
             change_response_button(data);
         },
         error: function (e) {
