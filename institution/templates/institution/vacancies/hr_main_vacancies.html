@@ -30,7 +30,7 @@
                             <td>{{ vacancy.institution.institution_name }}</td>
                             <td data-VacancyId="{{ vacancy.id }}">{{ vacancy.responded.count }}</td>
                             <td><a href="{% url 'institution:vacancy_update' vacancy.id %}" class="btn btn-light"><i class="fas fa-cog"></i></a></td>
-                            <td><a href="" class="btn btn-light"><i class="fas fa-trash"></i></a></td>
+                            <td><a href="{% url 'institution:vacancy_delete' vacancy.id %}" class="btn btn-light"><i class="fas fa-trash"></i></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

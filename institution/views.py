@@ -14,6 +14,8 @@ from django.http import JsonResponse
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import json
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
 
 
 class SubscriptionAnswer:
@@ -174,6 +176,12 @@ def vacancy_response(request):
                 }
             )
             return JsonResponse({'last_name': last_name, 'sign': '-1', 'vacancy_id': vacancy.id})
+
+
+class VacancyDelete(DeleteView):
+    template_name = 'institution/vacancies/vacancy_confirm_delete.html'
+    model = Vacancy
+    success_url = reverse_lazy('hr:main')
 
 
 

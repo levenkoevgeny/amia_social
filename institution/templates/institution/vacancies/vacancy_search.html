@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
+{% load static %}
+
 {% block title %}Поиск вакансии{% endblock %}
 
 {% block content %}
 
-        {% include 'social_profile/navbar.html' %}
+    {% include 'social_profile/navbar.html' %}
     <br>
     <div class="container-fluid">
 
@@ -38,7 +40,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Название отдела</label>
-                                        {% render_field filter.form.institution class+="form-control" style="width: 100%" %}
+                                        {% render_field filter.form.institution class+="form-control select2_class" style="width: 100%" %}
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -59,7 +61,18 @@
                                 <p>
                                     <a class="" data-toggle="collapse" href="#collapseExample{{ vac.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         <b>{{ vac.vacancy }}</b>
-                                    </a> {{ vac.institution }}&nbsp;&nbsp;<button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-bell"></i> Откликнуться</button><br>
+                                    </a> {{ vac.institution }}&nbsp;&nbsp;
+
+
+                                    {% if request.user.socialprofile in vac.responded.all %}
+                                        <button class="btn btn-success vacancy_respond btn-sm" type="button" id="id_vacancy_respond" name="vacancy_respond" data-VacancyId="{{ vac.id }}" value="1" disabled>
+                                            <i class="fas fa-bell"></i> Вы откликнулись на эту вакансию
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-secondary vacancy_respond btn-sm" type="button" id="id_vacancy_respond" name="vacancy_respond" data-VacancyId="{{ vac.id }}" value="-1" disabled>
+                                            <i class="fas fa-bell"></i> Откликнуться на вакансию
+                                        </button>
+                                    {% endif %}
                                 </p>
                                 <div class="collapse" id="collapseExample{{ vac.id }}">
                                     <div class="card card-body">
@@ -91,9 +104,11 @@
 {% endblock %}
 
 {% block js %}
-    <script>
-        $(document).ready(function() {
-            $('#id_institution').select2();
-        });
-    </script>
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#            $('#id_institution').select2();#}
+{#        });#}
+{#    </script>#}
+    <script src="{% static 'institution/js/vacancy_subscription.js' %}"></script>
+    <script src="{% static 'institution/js/vacancy_response.js' %}"></script>
 {% endblock %}
