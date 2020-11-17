@@ -10,7 +10,6 @@ $("#personal_data_update").click(function() {
         data: form_data,
         timeout : 100000,
         success: function (data) {
-            console.log(data);
             window.opener.$('#id_last_name').val(data['last_name']);
             window.opener.$('#id_first_name').val(data['first_name']);
             window.opener.$('#id_patronymic').val(data['patronymic']);
