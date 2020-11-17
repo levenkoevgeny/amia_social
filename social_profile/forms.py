@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import SocialProfile
+from .models import SocialProfile, Skill, Interest, WorkExperience
 from django.contrib.auth.models import User
 from django import forms
 
@@ -28,9 +28,40 @@ class ProfileForm(ModelForm):
         }
 
 
+class PersonalDataForm(ModelForm):
+
+    class Meta:
+
+        model = SocialProfile
+        fields = ['last_name', 'first_name',
+                  'patronymic', 'email', 'date_of_birth',
+                  'about_myself', 'contact_information_phone',
+                  'contact_information_address']
+        widgets = {
+            'date_of_birth': myDateInput
+        }
 
 
+class SkillForm(ModelForm):
+
+    class Meta:
+
+        model = Skill
+        fields = '__all__'
 
 
+class InterestForm(ModelForm):
 
+    class Meta:
+
+        model = Interest
+        fields = '__all__'
+
+
+class WorkExperienceForm(ModelForm):
+
+    class Meta:
+
+        model = WorkExperience
+        fields = '__all__'
 

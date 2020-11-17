@@ -125,8 +125,6 @@ class SocialProfile(models.Model):
         ordering = ('last_name',)
         verbose_name = 'Social profile'
         verbose_name_plural = 'Social profiles'
-
-
 # Many to many through
 
 
