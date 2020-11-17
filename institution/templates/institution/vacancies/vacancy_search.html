@@ -19,7 +19,9 @@
                         <ul class="list-unstyled">
                             {% for inst in institutions %}
                                 <li class="media">
-                                    <img src="{{ inst.img.url }}" class="mr-3" alt="institution_image" style="width: 100px;">
+                                    {% if inst.img %}
+                                        <img src="{{ inst.img.url }}" class="mr-3" alt="institution_image" style="width: 100px;">
+                                    {% endif %}
                                     <div class="media-body">
                                         <h5 class="mt-0 mb-1">{{ inst.institution_name }}
                                             <a href="{% url 'institution:institution_vacancy' inst.id %}" class="badge badge-dark">{{ inst.vacancy_set.all.count }}</a>
@@ -104,11 +106,11 @@
 {% endblock %}
 
 {% block js %}
-{#    <script>#}
-{#        $(document).ready(function() {#}
-{#            $('#id_institution').select2();#}
-{#        });#}
-{#    </script>#}
+    {#    <script>#}
+    {#        $(document).ready(function() {#}
+    {#            $('#id_institution').select2();#}
+    {#        });#}
+    {#    </script>#}
     <script src="{% static 'institution/js/vacancy_subscription.js' %}"></script>
     <script src="{% static 'institution/js/vacancy_response.js' %}"></script>
 {% endblock %}

@@ -15,7 +15,7 @@ $("#personal_data_update").click(function() {
             window.opener.$('#id_patronymic').val(data['patronymic']);
             window.opener.$('#id_email').val(data['email']);
             window.opener.$('#id_date_of_birth').val(data['date_of_birth']);
-            window.opener.$('#id_about_myself').val(data['id_about_myself']);
+            window.opener.$('#id_about_myself').val(data['about_myself']);
             window.opener.$('#id_contact_information_phone').val(data['contact_information_phone']);
             window.opener.$('#id_contact_information_address').val(data['contact_information_address']);
             window.close();

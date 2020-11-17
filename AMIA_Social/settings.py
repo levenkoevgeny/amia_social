@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'institution.apps.InstitutionConfig',
     'hr.apps.HrConfig',
     'index.apps.IndexConfig',
+    'messaging.apps.MessagingConfig',
     'django_celery_results',
     'widget_tweaks',
     'django_filters',
