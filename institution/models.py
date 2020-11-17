@@ -41,7 +41,7 @@ class Vacancy(models.Model):
     languages = models.ManyToManyField(Language, verbose_name="Language", through='LanguageWithLevelVacancy')
 
     def __str__(self):
-        return self.vacancy
+        return self.vacancy + ' ' + self.institution.institution_name
 
     class Meta:
         ordering = ('vacancy',)
@@ -67,3 +67,6 @@ class LanguageWithLevelVacancy(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.language.language_name + ' ' + self.vacancy.vacancy + ' ' + str(self.level.language_level)

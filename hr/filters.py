@@ -17,9 +17,9 @@ class VacancyFilter(django_filters.FilterSet):
 
     institution = django_filters.ModelMultipleChoiceFilter(queryset=Institution.objects.all())
     skills = django_filters.ModelMultipleChoiceFilter(queryset=Skill.objects.all())
-    language = django_filters.ModelChoiceFilter(field_name='languages__languagewithlevelvacancy__language',
+    language = django_filters.ModelChoiceFilter(field_name='languagewithlevelvacancy__language',
                                                 queryset=Language.objects.all())
-    language_level = django_filters.ChoiceFilter(field_name='languages__languagewithlevelvacancy__level',
+    language_level = django_filters.ChoiceFilter(field_name='languagewithlevelvacancy__level',
                                                  choices=LEVELS)
 
     class Meta:
@@ -32,9 +32,9 @@ class VacancyFilter(django_filters.FilterSet):
 class ProfileFilter(django_filters.FilterSet):
 
     skills = django_filters.ModelMultipleChoiceFilter(queryset=Skill.objects.all())
-    language = django_filters.ModelChoiceFilter(field_name='languages__languagewithlevel__language',
+    language = django_filters.ModelChoiceFilter(field_name='languagewithlevel__language',
                                                 queryset=Language.objects.all())
-    language_level = django_filters.ChoiceFilter(field_name='languages__languagewithlevel__level',
+    language_level = django_filters.ChoiceFilter(field_name='languagewithlevel__level',
                                                  choices=LEVELS)
 
     class Meta:

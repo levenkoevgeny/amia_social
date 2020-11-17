@@ -24,7 +24,7 @@ class MainView(LoginRequiredMixin, View):
 class ProfilesView(LoginRequiredMixin, View):
 
     def get(self, request):
-        f = ProfileFilter(request.GET, queryset=SocialProfile.objects.distinct().order_by('-pk'))
+        f = ProfileFilter(request.GET, queryset=SocialProfile.objects.exclude(user=request.user).distinct().order_by('-pk'))
         paginator = Paginator(f.qs, 50)
         page = request.GET.get('page')
         profiles = paginator.get_page(page)
