@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% block title %}Редактирование профиля{% endblock %}
 
@@ -90,96 +91,92 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-end align-items-center"><b>Образование</b>&nbsp;
-                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-light" onclick="window.open('{% url 'profile:profile_education_add' %}','popup','width=1000,height=300'); return false;"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Учебное заведение</label>
-                                <select class="form-control" id="id_education" name="education">
-                                    {% for educ in educational %}
-                                        <option value="{{ educ.id }}">{{ educ.institutional_name }}</option>
-                                    {% endfor %}
-                                </select>
+
+                        {% for educat in obj.educationwithinfo_set.all %}
+                            <div class="col-lg-10">
+                                Учебное заведение - {{ educat.specialty.education }}<br>
+                                Специальность - {{ educat.specialty.specialty_name }}<br>
+                                Год поступления - {{ educat.year_of_entrance }}<br>
+                                Год поступления - {{ educat.year_of_graduating|default:"Не окончил" }}
+                                <div class="dropdown-divider"></div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Специальность</label>
-                                <select class="form-control" id="id_education" name="education">
-                                    <option selected>----</option>
-                                    {% for spec in specialties %}
-                                        <option value="{{ spec.id }}">{{ spec.specialty_name }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <button class="btn btn-light" id="id_education_delete_button" onclick="education_delete();"><i class="fas fa-trash"></i></button>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div><br>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-end align-items-center"><b>Опыт работы</b>&nbsp;
-                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
+{#            <div class="card">#}
+{#                <div class="card-body">#}
+{#                    <div class="d-flex justify-content-end align-items-center"><b>Опыт работы</b>&nbsp;#}
+{#                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12">#}
+{#                            <div class="form-group">#}
                                 {#                                <label>Опыт работы</label>#}
                                 {#                        {% render_field form.contact_information_phone class+="form-control" %}#}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-end align-items-center"><b>Интересы</b>&nbsp;
-                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Выберите из списка</label>
-                                {% render_field form.interests class+="form-control select2_class" rows="3" %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-end align-items-center"><b>Навыки</b>&nbsp;
-                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Выберите из списка</label>
-                                {% render_field form.skills class+="form-control select2_class" rows="3" %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-end align-items-center"><b>Владение языками</b>&nbsp;
-                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-{#                                                                <label>Владение языками</label>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div><br>#}
+{#            <div class="card">#}
+{#                <div class="card-body">#}
+{#                    <div class="d-flex justify-content-end align-items-center"><b>Интересы</b>&nbsp;#}
+{#                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12">#}
+{#                            <div class="form-group">#}
+{#                                <label>Выберите из списка</label>#}
+{#                                {% render_field form.interests class+="form-control select2_class" rows="3" %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div><br>#}
+{#            <div class="card">#}
+{#                <div class="card-body">#}
+{#                    <div class="d-flex justify-content-end align-items-center"><b>Навыки</b>&nbsp;#}
+{#                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12">#}
+{#                            <div class="form-group">#}
+{#                                <label>Выберите из списка</label>#}
+{#                                {% render_field form.skills class+="form-control select2_class" rows="3" %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div><br>#}
+{#            <div class="card">#}
+{#                <div class="card-body">#}
+{#                    <div class="d-flex justify-content-end align-items-center"><b>Владение языками</b>&nbsp;#}
+{#                        <a class="btn btn-light" href=""><i class="fas fa-plus"></i></a>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12">#}
+{#                            <div class="form-group">#}
+                                {#                                                                <label>Владение языками</label>#}
                                 {#                                    {% render_field form.contact_information_phone class+="form-control" %}#}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div><br>#}
             {#            <button type="submit" class="btn btn-primary" disabled>Сохранить</button>#}
         </form>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'social_profile/js/education_ajax.js' %}"></script>
 {% endblock %}
 
 

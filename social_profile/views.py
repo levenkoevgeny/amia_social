@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import View
-from .models import SocialProfile
+from .models import SocialProfile, EducationWithInfo
 from django.shortcuts import get_object_or_404
-from .forms import RegistrationForm, ProfileForm, PersonalDataForm
+from .forms import RegistrationForm, ProfileForm, PersonalDataForm, EducationWithInfoForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -60,6 +60,23 @@ class RegistrationView(View):
             return render(request, 'registration/registration.html', {'form': form})
 
 
+class EducationAddView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = EducationWithInfoForm
+        return render(request, 'social_profile/update/education.html', {'form': form})
+
+    def post(self, request):
+        form = EducationWithInfoForm(request.POST)
+        if form.is_valid():
+            educ = form.save(commit=False)
+            educ.profile = request.user.socialprofile
+            educ.save()
+            return JsonResponse({'': ''}, safe=False)
+        else:
+            error_message = "Заполните правильно форму!"
+            return JsonResponse({'error': error_message}, safe=False)
+
+
 def personal_data_update(request, profile_id):
     if request.method == 'POST':
         obj = get_object_or_404(SocialProfile, pk=profile_id)
@@ -84,3 +101,12 @@ def personal_data_update(request, profile_id):
             'form': personal_data_form,
             'obj': obj
         })
+
+
+def educationWithInfoDelete(request, education_id):
+    if request.method == 'POST':
+        ed_with_info = get_object_or_404(EducationWithInfo, pk=education_id)
+        ed_with_info.delete()
+        return JsonResponse({'': ''}, safe=False)
+    else:
+        pass

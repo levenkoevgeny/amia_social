@@ -75,7 +75,7 @@ class Specialty(models.Model):
     education = models.ForeignKey(EducationalInstitution, on_delete=models.CASCADE, verbose_name="Education")
 
     def __str__(self):
-        return self.specialty_name
+        return self.specialty_name + ' ' + self.education.institutional_name
 
     class Meta:
         ordering = ('specialty_name',)
@@ -112,7 +112,7 @@ class SocialProfile(models.Model):
     about_myself = models.TextField(verbose_name="About_myself", blank=True, null=True)
     contact_information_phone = models.CharField(max_length=255, verbose_name="Phone", blank=True, null=True)
     contact_information_address = models.CharField(max_length=255, verbose_name="Address", blank=True, null=True)
-    education = models.ManyToManyField(EducationalInstitution, verbose_name="Education", through="EducationWithInfo")
+    education = models.ManyToManyField(Specialty, verbose_name="Education", through="EducationWithInfo")
     work_experience = models.ManyToManyField(WorkExperience, verbose_name="Work experience")
     interests = models.ManyToManyField(Interest, verbose_name="Interests", blank=True)
     skills = models.ManyToManyField(Skill, verbose_name="Skills", blank=True)
@@ -134,9 +134,11 @@ class LanguageWithLevel(models.Model):
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
 
 
-# Может лучше специальность? Вместо учебного заведения?
 class EducationWithInfo(models.Model):
-    education = models.ForeignKey(EducationalInstitution, on_delete=models.CASCADE)
+    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE)
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     year_of_entrance = models.IntegerField(verbose_name="Year of entrance")
     year_of_graduating = models.IntegerField(verbose_name="Year of graduating", blank=True, null=True)
+
+    def __str__(self):
+        return self.specialty.specialty_name + ' ' + self.profile.last_name
