@@ -104,7 +104,9 @@
                                 <div class="dropdown-divider"></div>
                             </div>
                             <div class="col-lg-2 d-flex justify-content-center align-items-center">
-                                <button class="btn btn-light" id="id_education_delete_button" onclick="education_delete();"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-light education_delete_button" type="button" id="id_education_delete_button{{ educat.id }}" value="{{ educat.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         {% endfor %}
                     </div>
