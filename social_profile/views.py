@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import SocialProfile, EducationWithInfo, WorkExperience, LanguageWithLevel
 from django.shortcuts import get_object_or_404
-from .forms import RegistrationForm, ProfileForm, PersonalDataForm, EducationWithInfoForm, WorkExperienceForm, InterestForm, SkillForm, LanguageWithLevelForm
+from .forms import RegistrationForm, ProfileImageForm, PersonalDataForm, EducationWithInfoForm, WorkExperienceForm, InterestForm, SkillForm, LanguageWithLevelForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -21,13 +21,28 @@ class ProfileView(LoginRequiredMixin, View):
         pass
 
 
+class ProfileImageUpdateView(LoginRequiredMixin, View):
+
+    def post(self, request):
+        obj = get_object_or_404(SocialProfile, pk=request.user.socialprofile.id)
+        image = request.FILES['profile_image']
+        obj.profile_img = image
+        obj.save()
+        return HttpResponseRedirect(reverse('profile:profile_update', args=(obj.id,)))
+
+
+
 class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request, profile_id):
         obj = get_object_or_404(SocialProfile, pk=profile_id)
-        form = ProfileForm(instance=obj)
-        return render(request, 'social_profile/profile_update_form.html', {'form': form,
-                                                                           'obj': obj,
-                                                                           })
+        image_form = ProfileImageForm
+        return render(request, 'social_profile/profile_update_form.html', {
+            'image_form': image_form,
+            'obj': obj,
+        })
+
+    def post(self, request, profile_id):
+        pass
 
 
 class RegistrationView(View):

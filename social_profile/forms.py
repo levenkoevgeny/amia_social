@@ -16,14 +16,21 @@ class RegistrationForm(ModelForm):
         }
 
 
-class ProfileForm(ModelForm):
+# class ProfileForm(ModelForm):
+#
+#     class Meta:
+#         model = SocialProfile
+#         exclude = ['user', 'status', 'date_added', 'education', 'work_experience', 'languages', ]
+#         widgets = {
+#             'date_of_birth': myDateInput
+#         }
+
+
+class ProfileImageForm(ModelForm):
 
     class Meta:
         model = SocialProfile
-        exclude = ['user', 'status', 'date_added', 'education', 'work_experience', 'languages']
-        widgets = {
-            'date_of_birth': myDateInput
-        }
+        fields = ['profile_img', ]
 
 
 class PersonalDataForm(ModelForm):
