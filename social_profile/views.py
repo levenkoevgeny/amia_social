@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import View
-from .models import SocialProfile, EducationWithInfo
+from .models import SocialProfile, EducationWithInfo, WorkExperience, LanguageWithLevel
 from django.shortcuts import get_object_or_404
-from .forms import RegistrationForm, ProfileForm, PersonalDataForm, EducationWithInfoForm
+from .forms import RegistrationForm, ProfileForm, PersonalDataForm, EducationWithInfoForm, WorkExperienceForm, InterestForm, SkillForm, LanguageWithLevelForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -77,6 +77,74 @@ class EducationAddView(LoginRequiredMixin, View):
             return JsonResponse({'error': error_message}, safe=False)
 
 
+class WorkExperienceAddView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = WorkExperienceForm
+        return render(request, 'social_profile/update/work_experience.html', {'form': form})
+
+    def post(self, request):
+        form = WorkExperienceForm(request.POST)
+        if form.is_valid():
+            w_e = form.save()
+            w_e.socialprofile_set.add(request.user.socialprofile)
+            w_e.save()
+            return JsonResponse({'': ''}, safe=False)
+        else:
+            error_message = "Заполните правильно форму!"
+            return JsonResponse({'error': error_message}, safe=False)
+
+
+class InterestAddView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = InterestForm
+        return render(request, 'social_profile/update/interest.html', {'form': form})
+
+    def post(self, request):
+        form = InterestForm(request.POST)
+        if form.is_valid():
+            interest = form.save()
+            interest.socialprofile_set.add(request.user.socialprofile)
+            interest.save()
+            return JsonResponse({'': ''}, safe=False)
+        else:
+            error_message = "Заполните правильно форму!"
+            return JsonResponse({'error': error_message}, safe=False)
+
+
+class SkillAddView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = SkillForm
+        return render(request, 'social_profile/update/skill.html', {'form': form})
+
+    def post(self, request):
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save()
+            skill.socialprofile_set.add(request.user.socialprofile)
+            skill.save()
+            return JsonResponse({'': ''}, safe=False)
+        else:
+            error_message = "Заполните правильно форму!"
+            return JsonResponse({'error': error_message}, safe=False)
+
+
+class LanguageAddView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = LanguageWithLevelForm
+        return render(request, 'social_profile/update/language_with_level.html', {'form': form})
+
+    def post(self, request):
+        form = LanguageWithLevelForm(request.POST)
+        if form.is_valid():
+            lang = form.save(commit=False)
+            lang.profile = request.user.socialprofile
+            lang.save()
+            return JsonResponse({'': ''}, safe=False)
+        else:
+            error_message = "Заполните правильно форму!"
+            return JsonResponse({'error': error_message}, safe=False)
+
+
 def personal_data_update(request, profile_id):
     if request.method == 'POST':
         obj = get_object_or_404(SocialProfile, pk=profile_id)
@@ -107,6 +175,24 @@ def educationWithInfoDelete(request, education_id):
     if request.method == 'POST':
         ed_with_info = get_object_or_404(EducationWithInfo, pk=education_id)
         ed_with_info.delete()
+        return JsonResponse({'': ''}, safe=False)
+    else:
+        pass
+
+
+def languageWithLevelDelete(request, lang_id):
+    if request.method == 'POST':
+        lang = get_object_or_404(LanguageWithLevel, pk=lang_id)
+        lang.delete()
+        return JsonResponse({'': ''}, safe=False)
+    else:
+        pass
+
+
+def workExperienceDelete(request, w_e_id):
+    if request.method == 'POST':
+        w_e = get_object_or_404(WorkExperience, pk=w_e_id)
+        w_e.delete()
         return JsonResponse({'': ''}, safe=False)
     else:
         pass

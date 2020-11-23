@@ -50,7 +50,8 @@ class LanguageLevel(models.Model):
     language_level = models.IntegerField(verbose_name="language_level", choices=LEVELS)
 
     def __str__(self):
-        return str(self.language_level)
+        level_index = int(self.language_level) - 1
+        return str(self.LEVELS[level_index][1])
 
     class Meta:
         ordering = ('language_level',)
@@ -94,7 +95,7 @@ class WorkExperience(models.Model):
         return self.position + ' ' + self.company_name
 
     class Meta:
-        ordering = ('position',)
+        ordering = ('-year_start',)
         verbose_name = 'Work experience'
         verbose_name_plural = 'Work experience'
 
@@ -132,6 +133,9 @@ class LanguageWithLevel(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     profile = models.ForeignKey(SocialProfile, on_delete=models.CASCADE)
     level = models.ForeignKey(LanguageLevel, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.profile) + ' ' + self.language.language_name + ' ' + str(self.level)
 
 
 class EducationWithInfo(models.Model):

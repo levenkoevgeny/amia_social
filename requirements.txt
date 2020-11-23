@@ -5,5 +5,5 @@ Pillow==2.2.1
 django-filter
 django-widget-tweaks
 celery
-django-celery-results
 channels_redis
+django-celery-results

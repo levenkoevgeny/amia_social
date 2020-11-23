@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import SocialProfile, Skill, Interest, WorkExperience, EducationWithInfo
+from .models import SocialProfile, Skill, Interest, WorkExperience, EducationWithInfo, LanguageWithLevel
 from django.contrib.auth.models import User
 from django import forms
 
@@ -65,4 +65,11 @@ class EducationWithInfoForm(ModelForm):
     class Meta:
         model = EducationWithInfo
         exclude = ['profile', ]
+
+
+class LanguageWithLevelForm(ModelForm):
+
+    class Meta:
+        model = LanguageWithLevel
+        fields = ['language', 'level', ]
 
