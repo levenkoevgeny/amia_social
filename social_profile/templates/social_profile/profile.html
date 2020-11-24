@@ -25,7 +25,9 @@
                                 {% endif %}
                             </div>
                             <div class="col-sm-8">
-                                <button type="button" class="btn btn-info"><i class="far fa-comments"></i> Написать сообщение</button><br><br>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalMessage" class="far fa-comments">
+                                    <i class="far fa-comments"></i> Написать сообщение
+                                </button><br><br>
                                 <div>
                                     <i class="fas fa-mobile"></i> {{ profile.contact_information_phone|default:"Нет данных" }}<br>
                                     <i class="fas fa-map-marker-alt"></i> {{ profile.contact_information_address|default:"Нет данных" }}<br><br>
@@ -74,4 +76,5 @@
             <div class="col-sm-2"></div>
         </div>
     </div>
+    {% include 'messaging/message_modal_window.html' %}
 {% endblock %}

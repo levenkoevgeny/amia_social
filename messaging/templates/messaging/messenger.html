@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Мессенджер{% endblock %}
+{% block content %}
+
+    {% if request.user.is_staff %}
+        {% include 'hr/navbar_hr.html' %}
+    {% else %}
+        {% include "social_profile/navbar.html" %}
+    {% endif %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                Диалоги
+            </div>
+            <div class="col-lg-4">
+                Сообщения
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {#    <script src="{% static 'social_profile/js/education_ajax.js' %}"></script>#}
+{% endblock %}

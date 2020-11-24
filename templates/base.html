@@ -17,6 +17,7 @@
 </head>
 <body>
 {% block content %}{% endblock %}
+<input type="hidden" id="user_id" value="{{request.user.id }}">
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -25,12 +26,16 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 {% block js %}{% endblock %}
+<script>
+    $(document).ready(function() {
+        $('.select2_class').select2();
+    });
+</script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2_class').select2();
+<script>
 
-        });
-    </script>
+</script>
+
+
 </body>
 </html>

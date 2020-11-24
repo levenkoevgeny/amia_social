@@ -4,5 +4,6 @@ from . import views
 app_name = 'messaging'
 
 urlpatterns = [
-
+    path('', views.messenger, name='messenger_main'),
 ]
+
