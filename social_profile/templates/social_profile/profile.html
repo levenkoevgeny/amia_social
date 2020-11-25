@@ -29,6 +29,7 @@
                                     <i class="far fa-comments"></i> Написать сообщение
                                 </button><br><br>
                                 <div>
+                                    <i></i><b><h4>{{ profile.last_name }} {{ profile.first_name }}</h4></b>
                                     <i class="fas fa-mobile"></i> {{ profile.contact_information_phone|default:"Нет данных" }}<br>
                                     <i class="fas fa-map-marker-alt"></i> {{ profile.contact_information_address|default:"Нет данных" }}<br><br>
                                     <b>{{ profile.about_myself|default:"Нет данных" }}</b>
