@@ -13,6 +13,7 @@
 
     <br>
     <div class="container">{% csrf_token %}
+    <input type="hidden" value="{{ profile.id }}" id="profile_id">
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">

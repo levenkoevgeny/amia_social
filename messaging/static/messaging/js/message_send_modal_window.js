@@ -2,6 +2,7 @@ $("#id_message_send_model_button").click(function() {
 
     let data = {};
     data.message = $("#id_message_text").val();
+    data.send_to_id = $("#profile_id").val();
 
     let csrftoken = getCookie('csrftoken');
 
@@ -26,7 +27,7 @@ $("#id_message_send_model_button").click(function() {
         data: data,
         timeout : 100000,
         success: function (data) {
-            console.log(data);
+            console.log('modal_send', data);
             // if (data['error']) {
             //     alert(data['error']);
             // } else {

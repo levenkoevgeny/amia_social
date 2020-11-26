@@ -16,36 +16,41 @@
             <div class="col-lg-4 border">
                 <table class="table table-hover">
                     <tbody>
-                    <tr>
-                        <td scope="row"><div class="media">
-                            <img src="" class="mr-3" alt="profile">
-                            <div class="media-body">
-                                <h5 class="mt-0">Profile Name</h5>
-                                Hello!!!
+                    {% for chat in chat_list %}
+                        <tr>
+                            <td scope="row"><div class="media">
+                                <img src="" class="mr-3" alt="profile">
+                                <div class="media-body">
+                                    <h5 class="mt-0">Profile Name</h5>
+                                    {{ chat.message_set.all.first.get_message_text }}
+                                </div>
                             </div>
-                        </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row"><div class="media">
-                            <img src="" class="mr-3" alt="profile">
-                            <div class="media-body">
-                                <h5 class="mt-0">Profile Name</h5>
-                                Hello!!!
-                            </div>
-                        </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row"><div class="media">
-                            <img src="" class="mr-3" alt="profile">
-                            <div class="media-body">
-                                <h5 class="mt-0">Profile Name</h5>
-                                Hello!!!
-                            </div>
-                        </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+                    {#                    <tr>#}
+                    {#                        <td scope="row"><div class="media">#}
+                    {#                            <img src="" class="mr-3" alt="profile">#}
+                    {#                            <div class="media-body">#}
+                    {#                                <h5 class="mt-0">Profile Name</h5>#}
+                    {#                                Hello!!!#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                        </td>#}
+                    {#                    </tr>#}
+                    {#                    <tr>#}
+                    {#                        <td scope="row"><div class="media">#}
+                    {#                            <img src="" class="mr-3" alt="profile">#}
+                    {#                            <div class="media-body">#}
+                    {#                                <h5 class="mt-0">Profile Name</h5>#}
+                    {#                                Hello!!!#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                        </td>#}
+                    {#                    </tr>#}
                     </tbody>
                 </table>
             </div>

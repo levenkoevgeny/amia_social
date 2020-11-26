@@ -2,6 +2,7 @@ from django.db import models
 from social_profile.models import SocialProfile
 from django.contrib.auth.models import User
 
+
 class Chat(models.Model):
     PERSONAL = 1
     GROUP = 2
@@ -30,11 +31,15 @@ class Message(models.Model):
     message_to = models.ForeignKey(SocialProfile, on_delete=models.CASCADE, verbose_name="Сообщение к",
                                    related_name="Message_to")
     date_added = models.DateTimeField(verbose_name="Дата и время сообщения", auto_now_add=True)
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, verbose_name="Название чата")
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, verbose_name="Название чата", blank=True, null=True)
 
     def __str__(self):
         return 'Сообщение - ' + self.message_text + ' от ' + self.message_from.last_name + ' к ' + \
-               self.message_to.last_name
+               self.message_to.last_name + ' чат: ' + self.chat.chat_name
+
+    @property
+    def get_message_text(self):
+        return self.message_text
 
     class Meta:
         ordering = ('-date_added',)

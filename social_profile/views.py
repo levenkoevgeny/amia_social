@@ -31,7 +31,6 @@ class ProfileImageUpdateView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse('profile:profile_update', args=(obj.id,)))
 
 
-
 class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request, profile_id):
         obj = get_object_or_404(SocialProfile, pk=profile_id)

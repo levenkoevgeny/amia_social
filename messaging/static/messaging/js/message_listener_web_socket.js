@@ -6,8 +6,8 @@ $( document ).ready(function() {
      );
 
      chatSocket.onmessage = function(e) {
-          // const data = JSON.parse(e.data);
-          // console.log(data);
+          console.log(e.data);
+
           // $('#id_toast-body').html(data['last_name'] + ' откликнулся на вакансию ' + data['vacancy_name']);
           // console.log(data['img_url']);
           // $('#profile_img').attr("src", data['img_url']);
