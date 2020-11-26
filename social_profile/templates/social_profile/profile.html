@@ -12,7 +12,7 @@
     {% endif %}
 
     <br>
-    <div class="container">
+    <div class="container">{% csrf_token %}
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
@@ -78,4 +78,7 @@
         </div>
     </div>
     {% include 'messaging/message_modal_window.html' %}
+{% endblock %}
+{% block js %}
+    <script src="{% static 'messaging/js/message_send_modal_window.js' %}"></script>
 {% endblock %}

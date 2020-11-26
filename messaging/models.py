@@ -1,6 +1,6 @@
 from django.db import models
 from social_profile.models import SocialProfile
-
+from django.contrib.auth.models import User
 
 class Chat(models.Model):
     PERSONAL = 1
@@ -40,3 +40,19 @@ class Message(models.Model):
         ordering = ('-date_added',)
         verbose_name = 'Message'
         verbose_name_plural = 'Messages'
+
+
+class Clients(models.Model):
+    client = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    channels_name = models.TextField(verbose_name="Имя канала")
+
+    def __str__(self):
+        return self.channels_name
+
+    class Meta:
+        ordering = ('client',)
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clients'
+
+
+

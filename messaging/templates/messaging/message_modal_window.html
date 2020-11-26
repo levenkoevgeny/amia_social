@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="d-flex justify-content-between" style="width: 100%;">
+                <div class="d-flex justify-content-between" style="width: 100%;">{% csrf_token %}
                     <div class="d-inline-flex align-items-center">
                         Новое сообщение
                     </div>
@@ -29,11 +29,11 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <textarea type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" rows="5"></textarea>
+                    <textarea type="text" class="form-control" id="id_message_text" aria-describedby="emailHelp" rows="5"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Отправить</button>
+                <button type="button" id="id_message_send_model_button" class="btn btn-primary">Отправить</button>
             </div>
         </div>
     </div>
