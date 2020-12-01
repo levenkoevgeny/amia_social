@@ -18,8 +18,15 @@ class MessageData:
 def messenger(request):
     chat_list = Chat.objects.filter(Q(message__message_from=request.user.socialprofile) |
                                     Q(message__message_to=request.user.socialprofile)).distinct()
-    return render(request, 'messaging/messenger.html', {
+    return render(request, 'messaging/messenger_main.html', {
         'chat_list': chat_list
+    })
+
+
+def chat_messenger(request, chat_id):
+    chat = Chat.objects.get(pk=chat_id)
+    return render(request, 'messaging/chat.html', {
+        'chat': chat
     })
 
 
